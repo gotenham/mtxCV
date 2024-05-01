@@ -29,9 +29,14 @@ Currently supported outputs:
 My personal implementation targets STM32 ARM chips, but a x64 build of example_mtxCV.cpp is provided for illustration.
 VS code image output as serial ASCII gradient using example image from example_mtxCV.cpp is below:
 
-Example image of earth from orbit:
+Example pre-greyscale input image of earth from orbit:
 
-![image](https://github.com/gotenham/mtxCV/assets/40827722/427bfbb2-e571-43fa-b1fe-801bb407736f)
+![image](https://github.com/gotenham/mtxCV/assets/40827722/087f79f2-7032-454f-b77b-8abb1e298417)
+
+
+Initial matrix image printed ASCII:
+
+![image](https://github.com/gotenham/mtxCV/assets/40827722/c4ffac4a-a7a5-4549-9dc0-a058892eaaa8)
 
 Image processing with 5x5 gaussian blur:
 
