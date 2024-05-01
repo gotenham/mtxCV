@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="V:\OneDrive\University\.Thesis\HorizonDetectionCode\mtxCV_githubMaster\example_mtxCV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="V:\OneDrive\University\.Thesis\HorizonDetectionCode\mtxCV_githubMaster\CMAKELists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{C83B130D-19AB-3F1E-9C3D-5E5C910CB3A3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+^V:\ONEDRIVE\UNIVERSITY\.THESIS\HORIZONDETECTIONCODE\MTXCV_GITHUBMASTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SV:/OneDrive/University/.Thesis/HorizonDetectionCode/mtxCV_githubMaster -BV:/OneDrive/University/.Thesis/HorizonDetectionCode/mtxCV_githubMaster/build --check-stamp-file V:/OneDrive/University/.Thesis/HorizonDetectionCode/mtxCV_githubMaster/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
