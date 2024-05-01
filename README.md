@@ -48,7 +48,7 @@ Identified edge sequence:
 ## Example Serial Output to GUI Interface Device
 The images can also be sent to serial UART in standardised format (written similar to CSV); this can be interpreted by a python or equivelant script running the OpenCV library on the receiving device to better visualise the results.
 
-Example of mtxCV processed image and candidate edge mask, displayed on receiving device using openCV:
+Example of mtxCV processed image and candidate edge mask running on STM32 L4 microcontroller from live thermal image feed, displayed on receiving device using openCV:
 
 ![image](https://github.com/gotenham/mtxCV/assets/40827722/9957b45d-a537-4726-8315-bffca05cf9b0)
 ![image](https://github.com/gotenham/mtxCV/assets/40827722/bb7a11eb-c7f5-4179-b2ec-548dc8c3dbdb)
