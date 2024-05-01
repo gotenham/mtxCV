@@ -97,7 +97,7 @@ int main() {
 	// Example printing image edge mask of edge candidates identified by Canny in ASCII format, w/ aspect compensation, using asciiGradientShort range.
 	printf("[Canny Edge Candidate Mask]:\n\r");
 	MtxCV::printImageAsciiSerial(edgeMask, true, false);
-	
+
 	// Example performing edge tracking by hysteresis using Breadth First Search
 	fnState = MtxCV::edgeTrackingByHysteresis(edgeMask, edgeCandidates, allContours, minSequenceLength, weakEdgeValue, strongEdgeValue);
 	

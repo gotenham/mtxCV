@@ -1384,7 +1384,81 @@
 			//moments /= static_cast<float>(samplesTaken);
 			return moments;
 		}
-	
+
+		// Function to send image matrix via serial in CSV format
+		template<typename MatrixType>
+		static void sendMatrixSerial(const MatrixType& matrix, const char* uniqueTitle) {
+			const int defaultPrecision = 2;
+			const Index mtxRows = matrix.rows();
+			const Index mtxCols = matrix.cols();
+			bool isFloatingPoint = std::is_floating_point<typename MatrixType::Scalar>::value;
+			int decimalPrecision = (isFloatingPoint ? defaultPrecision : 0);
+
+			// Prepare tagData / buffer string
+			char sendBuffer[mtxCols * 10]; //
+			size_t buffSize = sizeof(sendBuffer);
+			int charWritten = snprintf(sendBuffer, buffSize, "~txBEG~{ID:%s,X:%d,Y:%d,dt:%s}\n", uniqueTitle, static_cast<int>(mtxCols), static_cast<int>(mtxRows), (isFloatingPoint ? "f" : "i"));
+			// if the provided title overflows the buffer, instead send the unique matrix memory address in its place
+			if (charWritten < 0 || charWritten >= static_cast<int>(buffSize)) {
+				const void* matrixAddress = static_cast<const void*>(&matrix);
+				snprintf(sendBuffer, buffSize, "~txBEG~{ID:%p,X:%d,Y:%d,dt:%s}\n", matrixAddress, static_cast<int>(mtxCols), static_cast<int>(mtxRows), (isFloatingPoint ? "f" : "i"));
+			}
+			// Send serial start designator and matrix tagData
+			sendSerialData(reinterpret_cast<const uint8_t*>(sendBuffer), strlen(sendBuffer));
+
+			size_t offset = 0;
+
+			// Iterate over each row of the image matrix
+			for (Index j = 0; j < mtxRows; ++j) {
+				// Iterate over each column of the image matrix
+				for (Index i = 0; i < mtxCols; ++i) {
+					// Convert each pixel value to string and copy to the buffer
+					//offset += snprintf(buffer + offset, sizeof(buffer) - offset, "%.*f,", decimalPrecision, static_cast<float>(matrix(j, i)));
+					// Convert each pixel value to string and copy to the buffer
+					int charWritten = snprintf(sendBuffer + offset, buffSize - offset, "%.*f,", decimalPrecision, static_cast<float>(matrix(j, i)));
+					if (charWritten < 0 || charWritten >= static_cast<int>(buffSize - offset)) {
+						// [Err]: Buffer overflow while formatting row
+						// Send serial ERROR designator
+						snprintf(sendBuffer, buffSize, "~txERR~\n\r");
+						sendSerialData(reinterpret_cast<const uint8_t*>(sendBuffer), strlen(sendBuffer));
+						return;
+					} else {
+						offset += charWritten;
+					}
+				}
+				// Add newline character at the end of each row if there's space in the buffer
+				if (offset + 1 < buffSize) {
+					// Add newline character at the end of each row (single quotes for char, double quotes for string)
+					sendBuffer[offset - 1] = ';'; // Replace the last comma with semicolon
+					sendBuffer[offset++] = '\n'; // Add newline character
+				} else {
+					// Buffer overflow, send error designator and return
+					snprintf(sendBuffer + offset, buffSize - offset, "~txERR~\n\r");
+					sendSerialData(reinterpret_cast<const uint8_t*>(sendBuffer), strlen(sendBuffer));
+					return;
+				}
+				//sendBuffer[offset - 1] = ';'; // Replace the last comma with semicolon
+				// Send the buffer over serial port
+				sendSerialData(reinterpret_cast<const uint8_t*>(sendBuffer), offset);
+				offset = 0; // Reset offset for the next row
+			}
+
+			// Send serial end designator
+			snprintf(sendBuffer, buffSize, "~txEND~\n\r");
+			sendSerialData(reinterpret_cast<const uint8_t*>(sendBuffer), strlen(sendBuffer));
+		}
+
+		// Function to send data over serial using HAL libraries
+		static void sendSerialData(const uint8_t* data, size_t size) {
+			const size_t timeout_ms = 3000;
+			// Replace HAL_UART_Transmit based on platform, change uart endpoint huart2 with the appropriate USART instance being used
+			// HAL_UART_Transmit(&huart2, (uint8_t*)data, size, timeout_ms);
+			for (size_t i = 0; i < size; ++i) {
+				printf("%c", data[i]);
+			}
+			printf("\n\r");
+		}
+
 	}; //END MtxCV CLASS DEFINITION
 
 #ifdef _mtxCV_C_BUILD_FLAG
