@@ -1,4 +1,7 @@
 # mtxCV
+
+**[TBD repo restructure soon]**
+
 Matrix based Computer Vision for low resolution microcontroller applications; based on Eigen matrix and vector library.
 
 There are many existing robust open source computer vision libraries available such as OpenCV and others, these libraries are generally heavy in terms of resource requirements in the context of microcontrollers (STM32, Arduino etc); therefore this project aims to port basic image processing and edge detection functionality to lower end hardware by leaveraging the matrix math and manipulation functions available in the Eigen library. 
